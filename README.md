@@ -39,8 +39,7 @@ python get_list_python_package.py
 ### 使用办法
 ```bash
 # 1. 先安装 uv 引擎（脚本强依赖）
-# PowerShell:
-irm https://astral.sh/uv/install.ps1 | iex
+pip install uv
 
 # 2. 确保 requirements.txt 已生成且路径正确
 # 3. 运行下载脚本
