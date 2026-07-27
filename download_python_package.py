@@ -658,9 +658,9 @@ def main():
         platform_dir.mkdir(parents=True, exist_ok=True)
 
     # 设置日志文件：按执行日期+时分秒命名，所有控制台输出同时写入文件（每行带时间戳）
-    # 注意：Windows 文件名不允许半角冒号":"，故时分秒之间用全角冒号"："分隔
+    # 注意：Windows 文件名不允许半角冒号":"，故时分秒之间用"."分隔
     now_dt = datetime.datetime.now()
-    log_filename = f"{now_dt.strftime('%Y-%m-%d')}-{now_dt.strftime('%H：%M：%S')}-download_python_packages.log"
+    log_filename = f"{now_dt.strftime('%Y-%m-%d')}-{now_dt.strftime('%H.%M.%S')}-download_python_packages.log"
     log_path = DOWNLOAD_DIR / log_filename
     _tee = _TeeLogger(log_path, sys.stdout)
     _original_stdout = sys.stdout

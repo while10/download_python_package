@@ -49,7 +49,7 @@ python download_python_package.py
 - 包文件按平台分目录存放在 `DOWNLOAD_DIR\<platform>\` 下
 - 断点进度写在 `DOWNLOAD_DIR\.download_progress.txt`（中断后再次运行会自动跳过已完成分组）
 - 失败包记录在 `DOWNLOAD_DIR\download_failures.txt`
-- 日志文件命名形如 `YYYY-MM-DD-HH：MM：SS-download_python_packages.log`
+- 日志文件命名形如 `YYYY-MM-DD-HH.MM.SS-download_python_packages.log`
 
 ### 需要更改的变量
 | 变量 | 位置 | 默认值 | 说明 |
