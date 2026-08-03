@@ -12,8 +12,11 @@ import atexit
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+# ---- 目标 Python 版本（修改此处即可切换版本）----
+PYTHON_VERSION = "3.12"
+
 PACKAGE_LIST = Path(r".\requirements.txt")
-DOWNLOAD_DIR = Path(r"E:\python包下载\python311-packages")
+DOWNLOAD_DIR = Path(rf"E:\python包下载\python{PYTHON_VERSION.replace('.', '')}-packages")
 PROGRESS_FILE = DOWNLOAD_DIR / ".download_progress.txt"
 FAILURE_LOG = DOWNLOAD_DIR / "download_failures.txt"
 
@@ -23,7 +26,7 @@ INDEX_URLS = (
     "https://pypi.tuna.tsinghua.edu.cn/simple/",
 )
 
-# Python 3.11 的 Windows x86 和 Linux ARM64 目标。
+# 目标平台（Windows 和 Linux 多架构）。
 PLATFORMS = (
     "win_amd64",
     "manylinux2014_x86_64",
@@ -154,7 +157,7 @@ def _run_uv_compile(req_path, platform, index_urls, cache_subdir=None):
     command = [
         "uv", "pip", "compile",
         "-q",
-        "--python-version", "3.11",
+        "--python-version", PYTHON_VERSION,
         "--python-platform", uv_platform,
         "--index-url", index_urls[0],
         "--extra-index-url", index_urls[1],
@@ -288,7 +291,7 @@ def _load_group_lock(platform, group_idx, group_hash, uv_version):
             data = json.load(f)
         if (data.get("hash") == group_hash
                 and data.get("uv_version") == uv_version
-                and data.get("python_version") == "3.11"
+                and data.get("python_version") == PYTHON_VERSION
                 and data.get("group_size") == GROUP_SIZE):
             return data.get("deps", [])
         return None
@@ -305,7 +308,7 @@ def _save_group_lock(platform, group_idx, group_hash, uv_version, deps):
             json.dump({
                 "hash": group_hash,
                 "uv_version": uv_version,
-                "python_version": "3.11",
+                "python_version": PYTHON_VERSION,
                 "group_size": GROUP_SIZE,
                 "deps": deps,
             }, f, ensure_ascii=False)
@@ -334,7 +337,7 @@ def _pip_download_cmd(platform, platform_dir, index_urls, no_deps=True):
     urls = index_urls or INDEX_URLS
     cmd = [
         sys.executable, "-m", "pip", "download",
-        "--python-version", "3.11",
+        "--python-version", PYTHON_VERSION,
         "--platform", platform,
         "--only-binary=:all:",
         "--index-url", urls[0],
